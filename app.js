@@ -5,6 +5,7 @@ const cors = require("cors");
 const Product = require("./model/Product");
 const Pixel = require("./model/Pixel");
 const Sheet = require("./model/Sheet");
+const Order = require("./model/Order");
 
 const app = express();
 app.use(express.json());
@@ -55,6 +56,32 @@ app.get("/sheet", async (req, res) => {
 
   return res.status(200).json({ sheet });
 });
+
+app.get("/order", async (req, res) => {
+  const orders = await Order.find();
+
+  return res.status(200).json({ orders });
+});
+app.post("/order", async (req, res) => {
+  const { body } = req;
+
+  const order = await Order.create({ ...body });
+  return res.status(200).json({ order });
+});
+
+app.delete("/order/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const order = await Order.findOneAndDelete({ _id: id });
+  return res.status(200).json({ order });
+});
+app.get("/order/:id", async (req, res) => {
+  const id = req.params.id.toString();
+
+  const order = await Order.findOneAndDelete({ unique: id });
+  return res.status(200).json({ order });
+});
+
 app.patch("/sheet/:id", async (req, res) => {
   const { id } = req.params;
   const { sheet } = req.body;
@@ -64,6 +91,18 @@ app.patch("/sheet/:id", async (req, res) => {
     { new: true }
   );
   res.status(200).json({ newSheet });
+});
+
+app.patch("/order/:id", async (req, res) => {
+  const id = req.params.id;
+  const { body } = req;
+
+  const orderUpdate = await Order.findOneAndUpdate(
+    { _id: id },
+    { ...body },
+    { new: true }
+  );
+  res.status(200).json({ orderUpdate });
 });
 
 app.listen(5000);
