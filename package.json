@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "nodemon app.js"
+=======
+    "start": "node app.js"
+>>>>>>> f5d47ae3a85cbc6cf51b7adf0696c1415cdbfd03
   },
   "keywords": [],
   "author": "",
